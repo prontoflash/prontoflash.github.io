@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <title>Resumen de Facturación - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+  <h2>📋 Resumen de Facturación</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Servicio</th>
+        <th>Fecha</th>
+        <th>Precio</th>
+        <th>Estado</th>
+        <th>Factura</th>
+      </tr>
+    </thead>
+    <tbody id="listaFacturacion"></tbody>
+  </table>
+
+  <h3 id="totalFacturado" style="margin-top: 20px;"></h3>
+
+  <div class="navegacion">
+    <a href="admin-panel.html">🔙 Volver a Panel Admin</a>
+    <a href="demo.html">🏠 Ir a Demo</a>
+  </div>
+
+  <script>
+    function cargarFacturacion() {
+      const datos = JSON.parse(localStorage.getItem("agendamientos")) || [];
+      const lista = document.getElementById("listaFacturacion");
+      let total = 0;
+
+      lista.innerHTML = "";
+
+      datos.forEach((d, i) => {
+        const fila = document.createElement("tr");
+        const precio = parseFloat(d.precio || 0);
+        total += precio;
+
+        fila.innerHTML = \`
+          <td>\${d.cliente}</td>
+          <td>\${d.servicio}</td>
+          <td>\${d.fecha}</td>
+          <td>\$ \${precio.toFixed(2)}</td>
+          <td>\${d.estadoPago || "Pendiente"}</td>
+          <td><a href="factura.html?id=\${i}" target="_blank">📄 Ver</a></td>
+        \`;
+
+        lista.appendChild(fila);
+      });
+
+      document.getElementById("totalFacturado").textContent = "💰 Total Facturado: $" + total.toFixed(2);
+    }
+
+    window.onload = cargarFacturacion;
+  </script>
+
+</body>
+</html>

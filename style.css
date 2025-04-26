@@ -1,0 +1,84 @@
+
+/* Estilos base para PRONTOFLASH */
+
+body {
+  background-color: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+h1, h2, h3 {
+  color: #ff3300;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+input, select, textarea {
+  width: 90%;
+  max-width: 400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  background-color: #ff3300;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #cc2900;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  color: white;
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: center;
+}
+
+a {
+  color: #ff3300;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.navegacion {
+  margin-top: 30px;
+}
+
+.navegacion a {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #444;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+}
+
+.navegacion a:hover {
+  background-color: #666;
+}

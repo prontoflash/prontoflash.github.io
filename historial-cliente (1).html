@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Historial de Cliente - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body { background-color: #111; color: white; text-align: center; padding: 40px; font-family: Arial, sans-serif; }
+    input { padding: 10px; width: 250px; margin: 10px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; background-color: #ff3300; color: white; border: none; border-radius: 6px; }
+    button:hover { background-color: #cc2900; }
+    .resultados { margin-top: 30px; }
+    .servicio { background-color: #222; margin: 10px auto; padding: 15px; max-width: 600px; border-radius: 8px; }
+    .foto-servicio { margin-top: 10px; max-width: 100%; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <h2>📋 Historial de Cliente</h2>
+
+  <input type="text" id="busqueda" placeholder="Buscar por nombre o placa" />
+  <button onclick="buscar()">🔍 Buscar</button>
+
+  <div class="resultados" id="resultados"></div>
+
+  <div class="navegacion">
+    <a href="index.html">🏠 Ir al Inicio</a>
+  </div>
+
+  <script>
+    function buscar() {
+      const texto = document.getElementById("busqueda").value.toLowerCase();
+      const servicios = JSON.parse(localStorage.getItem("agendamientos")) || [];
+      const encontrados = servicios.filter(s =>
+        s.cliente.toLowerCase().includes(texto) || (s.placa && s.placa.toLowerCase().includes(texto))
+      );
+
+      const contenedor = document.getElementById("resultados");
+      contenedor.innerHTML = "";
+
+      if (encontrados.length === 0) {
+        contenedor.innerHTML = "<p>No se encontraron servicios.</p>";
+        return;
+      }
+
+      encontrados.forEach(s => {
+        const div = document.createElement("div");
+        div.className = "servicio";
+        div.innerHTML = \`
+          <strong>Cliente:</strong> \${s.cliente}<br/>
+          <strong>Placa:</strong> \${s.placa || "No registrada"}<br/>
+          <strong>Servicio:</strong> \${s.servicio}<br/>
+          <strong>Fecha:</strong> \${s.fecha} - <strong>Hora:</strong> \${s.hora}<br/>
+          \${s.foto ? '<img src="' + s.foto + '" class="foto-servicio" alt="Foto del servicio">' : ''}
+        \`;
+        contenedor.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>

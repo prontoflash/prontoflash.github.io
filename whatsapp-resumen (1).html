@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Resumen por WhatsApp - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+  <h2>📤 Enviar Resumen por WhatsApp</h2>
+
+  <input type="text" id="cliente" placeholder="Nombre del cliente" />
+  <input type="text" id="numero" placeholder="Número WhatsApp (sin + ni espacios)" />
+  <button onclick="enviar()">Enviar Resumen</button>
+
+  <pre id="resumenTexto" style="background-color:#222; padding:20px; color:#ccc; white-space:pre-wrap; max-width:700px; margin: 20px auto;"></pre>
+
+  <div class="navegacion">
+    <a href="demo.html">🔙 Volver a Demo</a>
+    <a href="resumen-facturacion.html">💳 Ver Facturación</a>
+  </div>
+
+  <script>
+    function enviar() {
+      const nombre = document.getElementById("cliente").value.trim();
+      const numero = document.getElementById("numero").value.trim();
+      const servicios = JSON.parse(localStorage.getItem("agendamientos")) || [];
+
+      if (!nombre || !numero) {
+        alert("⚠️ Ingresa nombre y número.");
+        return;
+      }
+
+      const filtrados = servicios.filter(s => s.cliente.toLowerCase() === nombre.toLowerCase());
+
+      if (filtrados.length === 0) {
+        document.getElementById("resumenTexto").textContent = "No se encontraron servicios para ese cliente.";
+        return;
+      }
+
+      let mensaje = `Hola ${nombre}, este es el resumen de tus servicios con PRONTOFLASH:\n\n`;
+      filtrados.forEach(s => {
+        mensaje += `- ${s.servicio} el ${s.fecha} a las ${s.hora}\n`;
+        if (s.precio) mensaje += `  Precio: $${s.precio}\n`;
+        mensaje += "\n";
+      });
+
+      document.getElementById("resumenTexto").textContent = mensaje;
+
+      const url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+      window.open(url, "_blank");
+    }
+  </script>
+
+</body>
+</html>

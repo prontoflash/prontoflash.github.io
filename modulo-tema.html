@@ -1,0 +1,46 @@
+
+<!-- 🌓 Módulo de cambio de tema claro/oscuro -->
+<style>
+  .boton-tema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: transparent;
+    border: 2px solid #ff3300;
+    color: #ff3300;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .boton-tema:hover {
+    background-color: #ff3300;
+    color: white;
+  }
+</style>
+
+<button class="boton-tema" onclick="cambiarTema()">🌓 Cambiar Tema</button>
+
+<script>
+  function aplicarTema(tema) {
+    const esClaro = tema === "claro";
+    document.body.style.backgroundColor = esClaro ? "#f5f5f5" : "#111";
+    document.body.style.color = esClaro ? "#000" : "#fff";
+    const enlaces = document.querySelectorAll("a, button");
+    enlaces.forEach(el => {
+      el.style.backgroundColor = esClaro ? "#eee" : "#222";
+      el.style.color = esClaro ? "#000" : "#fff";
+    });
+    localStorage.setItem("tema", tema);
+  }
+
+  function cambiarTema() {
+    const actual = localStorage.getItem("tema") || "oscuro";
+    const nuevo = actual === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+  }
+
+  // Al cargar
+  aplicarTema(localStorage.getItem("tema") || "oscuro");
+</script>

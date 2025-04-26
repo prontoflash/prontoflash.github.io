@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Firmas Guardadas - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    .firma {
+      margin: 20px auto;
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+    }
+    .firma img {
+      max-width: 100%;
+      margin-top: 10px;
+      border: 1px solid #444;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🖊 Firmas Guardadas</h2>
+
+  <div id="contenedorFirmas"></div>
+
+  <div class="navegacion">
+    <a href="demo.html">🔙 Volver a Demo</a>
+    <a href="admin-panel.html">🧾 Ir a Panel Admin</a>
+  </div>
+
+  <script>
+    function mostrarFirmas() {
+      const contenedor = document.getElementById("contenedorFirmas");
+      contenedor.innerHTML = "";
+      for (let i = 0; i < localStorage.length; i++) {
+        const clave = localStorage.key(i);
+        if (clave.startsWith("firma_")) {
+          const nombre = clave.replace("firma_", "");
+          const imagen = localStorage.getItem(clave);
+          const div = document.createElement("div");
+          div.className = "firma";
+          div.innerHTML = \`
+            <strong>Cliente:</strong> \${nombre}<br/>
+            <img src="\${imagen}" alt="Firma de \${nombre}" />
+          \`;
+          contenedor.appendChild(div);
+        }
+      }
+    }
+
+    window.onload = mostrarFirmas;
+  </script>
+
+
+
+<!-- 🌓 Módulo de cambio de tema claro/oscuro -->
+<style>
+  .boton-tema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: transparent;
+    border: 2px solid #ff3300;
+    color: #ff3300;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .boton-tema:hover {
+    background-color: #ff3300;
+    color: white;
+  }
+</style>
+
+<button class="boton-tema" onclick="cambiarTema()">🌓 Cambiar Tema</button>
+
+<script>
+  function aplicarTema(tema) {
+    const esClaro = tema === "claro";
+    document.body.style.backgroundColor = esClaro ? "#f5f5f5" : "#111";
+    document.body.style.color = esClaro ? "#000" : "#fff";
+    const enlaces = document.querySelectorAll("a, button");
+    enlaces.forEach(el => {
+      el.style.backgroundColor = esClaro ? "#eee" : "#222";
+      el.style.color = esClaro ? "#000" : "#fff";
+    });
+    localStorage.setItem("tema", tema);
+  }
+
+  function cambiarTema() {
+    const actual = localStorage.getItem("tema") || "oscuro";
+    const nuevo = actual === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+  }
+
+  // Al cargar
+  aplicarTema(localStorage.getItem("tema") || "oscuro");
+</script>
+
+</body>
+</html>

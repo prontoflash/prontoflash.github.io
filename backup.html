@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <title>Respaldo y Restauración - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body { background-color: #111; color: white; font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+    h1 { color: #ff3300; }
+    button, input[type="file"] {
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      background-color: #ff3300;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #cc2900;
+    }
+    .navegacion a {
+      display: inline-block;
+      margin-top: 30px;
+      color: #ff3300;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📦 Respaldo y Restauración</h1>
+  <p>Exporta todos los datos, impórtalos o reinicia completamente el sistema.</p>
+
+  <button onclick="exportar()">📤 Exportar Datos</button><br/>
+  <input type="file" id="archivoImportar" />
+  <button onclick="importar()">📥 Importar Datos</button><br/>
+  <button onclick="limpiar()">🧹 Limpiar Todo</button>
+
+  <div class="navegacion">
+    <a href="admin-panel.html">🔙 Volver al Panel Admin</a><br/>
+    <a href="index.html">🏠 Ir al Inicio</a>
+  </div>
+
+  <script>
+    function exportar() {
+      const datos = JSON.stringify(localStorage, null, 2);
+      const blob = new Blob([datos], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "prontoflash_backup.json";
+      a.click();
+    }
+
+    function importar() {
+      const archivo = document.getElementById("archivoImportar").files[0];
+      if (!archivo) return alert("Selecciona un archivo primero.");
+      const lector = new FileReader();
+      lector.onload = function(e) {
+        try {
+          const datos = JSON.parse(e.target.result);
+          for (let clave in datos) {
+            localStorage.setItem(clave, datos[clave]);
+          }
+          alert("✅ Datos restaurados con éxito. Recarga la página.");
+        } catch {
+          alert("❌ Archivo no válido.");
+        }
+      };
+      lector.readAsText(archivo);
+    }
+
+    function limpiar() {
+      if (confirm("¿Seguro que deseas borrar todos los datos?")) {
+        localStorage.clear();
+        alert("🧹 Datos eliminados.");
+      }
+    }
+  </script>
+
+</body>
+</html>

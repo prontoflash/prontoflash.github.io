@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <title>Gestión de Servicios - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+  <h2>🛠 Gestión de Tipos de Servicios</h2>
+
+  <form onsubmit="agregarServicio(); return false;">
+    <input type="text" id="nombre" placeholder="Nombre del servicio" required />
+    <input type="number" id="precio" placeholder="Precio en $" required />
+    <button type="submit">➕ Agregar Servicio</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody id="tablaServicios"></tbody>
+  </table>
+
+  <div class="navegacion">
+    <a href="admin-panel.html">🔙 Volver al Panel Admin</a>
+    <a href="demo.html">🏠 Ir a Demo</a>
+  </div>
+
+  <script>
+    function cargarServicios() {
+      const servicios = JSON.parse(localStorage.getItem("servicios")) || [];
+      const tbody = document.getElementById("tablaServicios");
+      tbody.innerHTML = "";
+      servicios.forEach((s, i) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = \`
+          <td>\${s.nombre}</td>
+          <td>\$ \${s.precio}</td>
+          <td><button onclick="eliminarServicio(\${i})">❌</button></td>
+        \`;
+        tbody.appendChild(fila);
+      });
+    }
+
+    function agregarServicio() {
+      const nombre = document.getElementById("nombre").value.trim();
+      const precio = parseFloat(document.getElementById("precio").value);
+      if (!nombre || isNaN(precio)) return alert("⚠️ Complete ambos campos.");
+
+      const servicios = JSON.parse(localStorage.getItem("servicios")) || [];
+      servicios.push({ nombre, precio });
+      localStorage.setItem("servicios", JSON.stringify(servicios));
+      cargarServicios();
+      document.getElementById("nombre").value = "";
+      document.getElementById("precio").value = "";
+    }
+
+    function eliminarServicio(index) {
+      const servicios = JSON.parse(localStorage.getItem("servicios")) || [];
+      servicios.splice(index, 1);
+      localStorage.setItem("servicios", JSON.stringify(servicios));
+      cargarServicios();
+    }
+
+    window.onload = cargarServicios;
+  </script>
+
+</body>
+</html>

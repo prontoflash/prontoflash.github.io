@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <title>Dashboard - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    .modulo {
+      background-color: #222;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 15px;
+      display: inline-block;
+      width: 220px;
+      vertical-align: top;
+    }
+    .modulo a {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📊 Dashboard General - PRONTOFLASH</h1>
+  <p>Accede rápidamente a los módulos del sistema</p>
+
+  <div class="modulo">
+    <h3>👥 Usuarios</h3>
+    <a href="registro.html">Registrar</a>
+    <a href="login.html">Login</a>
+    <a href="cambiar-clave.html">Cambiar Clave</a>
+  </div>
+
+  <div class="modulo">
+    <h3>📅 Servicios</h3>
+    <a href="agendar.html">Agendar Servicio</a>
+    <a href="panel-tecnico.html">Panel Técnico</a>
+    <a href="firma-digital.html">Firma Digital</a>
+  </div>
+
+  <div class="modulo">
+    <h3>📈 Gestión</h3>
+    <a href="admin-panel.html">Panel Admin</a>
+    <a href="servicios.html">Gestión de Servicios</a>
+    <a href="resumen-facturacion.html">Facturación</a>
+  </div>
+
+  <div class="modulo">
+    <h3>📋 Informes</h3>
+    <a href="historial-cliente.html">Historial Clientes</a>
+    <a href="firmas-guardadas.html">Firmas Guardadas</a>
+    <a href="estadisticas.html">Estadísticas</a>
+  </div>
+
+  <div class="modulo">
+    <h3>📤 Otros</h3>
+    <a href="whatsapp-resumen.html">Enviar WhatsApp</a>
+    <a href="demo.html">Demo Interactiva</a>
+    <a href="index.html">Página de Inicio</a>
+  </div>
+
+
+<!-- 🌓 Módulo de cambio de tema claro/oscuro -->
+<style>
+  .boton-tema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: transparent;
+    border: 2px solid #ff3300;
+    color: #ff3300;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .boton-tema:hover {
+    background-color: #ff3300;
+    color: white;
+  }
+</style>
+
+<button class="boton-tema" onclick="cambiarTema()">🌓 Cambiar Tema</button>
+
+<script>
+  function aplicarTema(tema) {
+    const esClaro = tema === "claro";
+    document.body.style.backgroundColor = esClaro ? "#f5f5f5" : "#111";
+    document.body.style.color = esClaro ? "#000" : "#fff";
+    const enlaces = document.querySelectorAll("a, button");
+    enlaces.forEach(el => {
+      el.style.backgroundColor = esClaro ? "#eee" : "#222";
+      el.style.color = esClaro ? "#000" : "#fff";
+    });
+    localStorage.setItem("tema", tema);
+  }
+
+  function cambiarTema() {
+    const actual = localStorage.getItem("tema") || "oscuro";
+    const nuevo = actual === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+  }
+
+  // Al cargar
+  aplicarTema(localStorage.getItem("tema") || "oscuro");
+</script>
+
+</body>
+</html>

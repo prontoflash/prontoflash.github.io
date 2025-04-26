@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Resumen de Facturación - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body { background-color: #111; color: white; font-family: Arial, sans-serif; padding: 40px; text-align: center; }
+    .factura { background-color: #222; padding: 15px; border-radius: 8px; margin: 10px auto; max-width: 600px; }
+  </style>
+</head>
+<body>
+
+  <h2>💳 Resumen de Facturación</h2>
+  <div id="contenedorFacturas"></div>
+
+  <div class="navegacion">
+    <a href="admin-panel.html">🔙 Volver al Panel Admin</a>
+  </div>
+
+  <script>
+    const contenedor = document.getElementById("contenedorFacturas");
+    const agendamientos = JSON.parse(localStorage.getItem("agendamientos")) || [];
+
+    let total = 0;
+
+    if (agendamientos.length === 0) {
+      contenedor.innerHTML = "<p>No hay registros aún.</p>";
+    } else {
+      agendamientos.forEach((s, i) => {
+        const precio = s.precio ? parseFloat(s.precio) : 0;
+        total += precio;
+        const div = document.createElement("div");
+        div.className = "factura";
+        div.innerHTML = \`
+          <strong>Cliente:</strong> \${s.cliente} <br/>
+          <strong>Placa:</strong> \${s.placa || "No registrada"} <br/>
+          <strong>Servicio:</strong> \${s.servicio} <br/>
+          <strong>Fecha:</strong> \${s.fecha} - <strong>Hora:</strong> \${s.hora} <br/>
+          <strong>Precio:</strong> \$\${precio.toFixed(2)}
+        \`;
+        contenedor.appendChild(div);
+      });
+
+      const totalDiv = document.createElement("div");
+      totalDiv.style.marginTop = "30px";
+      totalDiv.innerHTML = "<h3>Total facturado: $" + total.toFixed(2) + "</h3>";
+      contenedor.appendChild(totalDiv);
+    }
+  </script>
+
+</body>
+</html>

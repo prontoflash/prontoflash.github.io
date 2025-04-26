@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Presentación - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    .contenido {
+      max-width: 700px;
+      margin: auto;
+    }
+    .logo {
+      max-height: 120px;
+      margin: 20px auto;
+    }
+    .boton {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 20px;
+      background-color: #ff3300;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    .boton:hover {
+      background-color: #cc2900;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contenido">
+    <img src="logo-prontoflash.png" alt="Logo PRONTOFLASH" class="logo" />
+    <h1>🚗 Bienvenido a PRONTOFLASH</h1>
+    <p>Tu sistema de gestión para servicios automotrices, desarrollado para facilitar agendamiento, operación técnica, administración y atención al cliente.</p>
+
+    <p>Incluye:</p>
+    <ul style="text-align: left;">
+      <li>📅 Agendamiento inteligente</li>
+      <li>🔧 Panel del técnico con cronómetro, foto y firma</li>
+      <li>📊 Administración con facturación y estadísticas</li>
+      <li>📤 Envío de resúmenes por WhatsApp</li>
+      <li>📝 Firma digital</li>
+    </ul>
+
+    <a href="demo.html" class="boton">🔍 Ver Demo Interactiva</a>
+  </div>
+
+
+
+<!-- 🌓 Módulo de cambio de tema claro/oscuro -->
+<style>
+  .boton-tema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: transparent;
+    border: 2px solid #ff3300;
+    color: #ff3300;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .boton-tema:hover {
+    background-color: #ff3300;
+    color: white;
+  }
+</style>
+
+<button class="boton-tema" onclick="cambiarTema()">🌓 Cambiar Tema</button>
+
+<script>
+  function aplicarTema(tema) {
+    const esClaro = tema === "claro";
+    document.body.style.backgroundColor = esClaro ? "#f5f5f5" : "#111";
+    document.body.style.color = esClaro ? "#000" : "#fff";
+    const enlaces = document.querySelectorAll("a, button");
+    enlaces.forEach(el => {
+      el.style.backgroundColor = esClaro ? "#eee" : "#222";
+      el.style.color = esClaro ? "#000" : "#fff";
+    });
+    localStorage.setItem("tema", tema);
+  }
+
+  function cambiarTema() {
+    const actual = localStorage.getItem("tema") || "oscuro";
+    const nuevo = actual === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+  }
+
+  // Al cargar
+  aplicarTema(localStorage.getItem("tema") || "oscuro");
+</script>
+
+
+  <div style="margin-top: 30px; font-size: 18px;">
+    <h2>📘 Guía de Uso de PRONTOFLASH</h2>
+    <p>Bienvenido al sistema de gestión de servicios automotrices.</p>
+    <ul style="text-align: left; max-width: 600px; margin: auto;">
+      <li>👤 <strong>Cliente:</strong> puede agendar citas, firmar y ver historial</li>
+      <li>🔧 <strong>Técnico:</strong> registra fotos, notas y tiempos del servicio</li>
+      <li>👨‍💼 <strong>Administrador:</strong> gestiona estadísticas, facturación y más</li>
+    </ul>
+    <p style="margin-top: 20px;">
+      <a href="demo.html">🌐 Ir al menú principal</a>
+    </p>
+  </div>
+
+</body>
+</html>

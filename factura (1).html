@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Factura - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      color: #ff3300;
+    }
+    .factura {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .factura div {
+      margin: 10px 0;
+    }
+    .volver {
+      margin-top: 30px;
+    }
+    .volver a, button {
+      color: #ff3300;
+      text-decoration: none;
+      font-weight: bold;
+      background: none;
+      border: 2px solid #ff3300;
+      border-radius: 6px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .volver a:hover, button:hover {
+      background-color: #cc2900;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📄 Factura Detallada</h1>
+
+  <div class="factura" id="facturaDetalle">
+    <div><strong>Cliente:</strong> <span id="cliente"></span></div>
+    <div><strong>Placa:</strong> <span id="placa"></span></div>
+    <div><strong>Servicio:</strong> <span id="servicio"></span></div>
+    <div><strong>Fecha:</strong> <span id="fecha"></span></div>
+    <div><strong>Hora:</strong> <span id="hora"></span></div>
+    <div><strong>Precio:</strong> $<span id="precio"></span></div>
+    <div><strong>Estado de pago:</strong> <span id="estado"></span></div>
+  </div>
+
+  <div class="volver">
+    <a href="resumen-facturacion.html">🔙 Volver a Resumen</a>
+    <button onclick="window.print()">🖨️ Imprimir o Exportar</button>
+  </div>
+
+  <script>
+    const factura = JSON.parse(localStorage.getItem("facturaActual"));
+    if (factura) {
+      document.getElementById("cliente").textContent = factura.cliente;
+      document.getElementById("placa").textContent = factura.placa || "No registrada";
+      document.getElementById("servicio").textContent = factura.servicio;
+      document.getElementById("fecha").textContent = factura.fecha;
+      document.getElementById("hora").textContent = factura.hora;
+      document.getElementById("precio").textContent = factura.precio;
+      document.getElementById("estado").textContent = factura.estado;
+    } else {
+      document.getElementById("facturaDetalle").innerHTML = "<p>No se encontró la factura actual.</p>";
+    }
+  </script>
+
+</body>
+</html>

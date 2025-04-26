@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Panel Técnico - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body { background-color: #111; color: white; font-family: Arial, sans-serif; padding: 30px; text-align: center; }
+    input, textarea, select, button { margin: 10px; padding: 10px; font-size: 16px; border-radius: 6px; }
+    .imagen-preview { max-width: 300px; margin-top: 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <h2>🔧 Panel del Técnico</h2>
+
+  <input type="text" id="placa" placeholder="Buscar por placa" />
+  <button onclick="buscar()">🔍 Buscar</button>
+
+  <div id="resultado"></div>
+
+  <div id="panel" style="display:none;">
+    <textarea id="nota" placeholder="Notas del técnico..."></textarea><br/>
+    <input type="file" id="foto" accept="image/*"><br/>
+    <img id="preview" class="imagen-preview" style="display:none;"><br/>
+    <button onclick="guardar()">💾 Guardar Actualización</button>
+  </div>
+
+  <div class="navegacion">
+    <a href="index.html">🏠 Ir al Inicio</a>
+  </div>
+
+  <script>
+    let indexServicio = null;
+
+    document.getElementById("foto").addEventListener("change", function(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById("preview").src = event.target.result;
+        document.getElementById("preview").style.display = "block";
+      };
+      if (file) reader.readAsDataURL(file);
+    });
+
+    function buscar() {
+      const placa = document.getElementById("placa").value.toLowerCase();
+      const servicios = JSON.parse(localStorage.getItem("agendamientos")) || [];
+      const encontrado = servicios.findIndex(s => s.placa && s.placa.toLowerCase() === placa);
+
+      if (encontrado >= 0) {
+        indexServicio = encontrado;
+        document.getElementById("resultado").innerHTML = "✅ Servicio encontrado: " + servicios[encontrado].cliente + " (" + servicios[encontrado].servicio + ")";
+        document.getElementById("panel").style.display = "block";
+      } else {
+        document.getElementById("resultado").innerHTML = "❌ No se encontró ningún servicio con esa placa.";
+        document.getElementById("panel").style.display = "none";
+      }
+    }
+
+    function guardar() {
+      if (indexServicio === null) return alert("Busca un servicio primero.");
+      const servicios = JSON.parse(localStorage.getItem("agendamientos")) || [];
+      servicios[indexServicio].nota = document.getElementById("nota").value;
+      const img = document.getElementById("preview").src;
+      if (img && img.startsWith("data:image")) {
+        servicios[indexServicio].foto = img;
+      }
+      localStorage.setItem("agendamientos", JSON.stringify(servicios));
+      alert("✅ Información del servicio actualizada.");
+      document.getElementById("nota").value = "";
+      document.getElementById("foto").value = "";
+      document.getElementById("preview").style.display = "none";
+    }
+  </script>
+
+
+<!-- 🌓 Módulo de cambio de tema claro/oscuro -->
+<style>
+  .boton-tema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: transparent;
+    border: 2px solid #ff3300;
+    color: #ff3300;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .boton-tema:hover {
+    background-color: #ff3300;
+    color: white;
+  }
+</style>
+
+<button class="boton-tema" onclick="cambiarTema()">🌓 Cambiar Tema</button>
+
+<script>
+  function aplicarTema(tema) {
+    const esClaro = tema === "claro";
+    document.body.style.backgroundColor = esClaro ? "#f5f5f5" : "#111";
+    document.body.style.color = esClaro ? "#000" : "#fff";
+    const enlaces = document.querySelectorAll("a, button");
+    enlaces.forEach(el => {
+      el.style.backgroundColor = esClaro ? "#eee" : "#222";
+      el.style.color = esClaro ? "#000" : "#fff";
+    });
+    localStorage.setItem("tema", tema);
+  }
+
+  function cambiarTema() {
+    const actual = localStorage.getItem("tema") || "oscuro";
+    const nuevo = actual === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+  }
+
+  // Al cargar
+  aplicarTema(localStorage.getItem("tema") || "oscuro");
+</script>
+
+
+  <div class="volver" style="margin-top: 30px;">
+    <a href="dashboard.html">📋 Ir al Dashboard</a>
+    <a href="historial-cliente.html">📋 Ver Historial</a>
+    <a href="agendar.html">📅 Nuevo Agendamiento</a>
+  </div>
+
+</body>
+</html>

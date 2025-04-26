@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Firmas Guardadas - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    .firma {
+      margin: 20px auto;
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+    }
+    .firma img {
+      max-width: 100%;
+      margin-top: 10px;
+      border: 1px solid #444;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🖊 Firmas Guardadas</h2>
+
+  <div id="contenedorFirmas"></div>
+
+  <div class="navegacion">
+    <a href="demo.html">🔙 Volver a Demo</a>
+    <a href="admin-panel.html">🧾 Ir a Panel Admin</a>
+  </div>
+
+  <script>
+    function mostrarFirmas() {
+      const contenedor = document.getElementById("contenedorFirmas");
+      contenedor.innerHTML = "";
+      for (let i = 0; i < localStorage.length; i++) {
+        const clave = localStorage.key(i);
+        if (clave.startsWith("firma_")) {
+          const nombre = clave.replace("firma_", "");
+          const imagen = localStorage.getItem(clave);
+          const div = document.createElement("div");
+          div.className = "firma";
+          div.innerHTML = \`
+            <strong>Cliente:</strong> \${nombre}<br/>
+            <img src="\${imagen}" alt="Firma de \${nombre}" />
+          \`;
+          contenedor.appendChild(div);
+        }
+      }
+    }
+
+    window.onload = mostrarFirmas;
+  </script>
+
+</body>
+</html>

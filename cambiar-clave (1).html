@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Cambiar Clave - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+  <h2>🔐 Cambiar Clave</h2>
+
+  <input type="text" id="usuario" placeholder="Nombre de usuario" />
+  <input type="password" id="nuevaClave" placeholder="Nueva contraseña" />
+  <button onclick="cambiarClave()">Guardar nueva clave</button>
+
+  <div class="navegacion">
+    <a href="index.html">🔙 Volver al Inicio</a>
+    <a href="login.html">🔐 Ir a Login</a>
+  </div>
+
+  <script>
+    function cambiarClave() {
+      const usuario = document.getElementById("usuario").value.trim();
+      const nuevaClave = document.getElementById("nuevaClave").value;
+
+      if (!usuario || !nuevaClave) {
+        alert("⚠️ Completa ambos campos.");
+        return;
+      }
+
+      if (!localStorage.getItem("clave_" + usuario)) {
+        alert("⚠️ Usuario no encontrado.");
+        return;
+      }
+
+      localStorage.setItem("clave_" + usuario, nuevaClave);
+      alert("✅ Contraseña actualizada para " + usuario);
+      document.getElementById("usuario").value = "";
+      document.getElementById("nuevaClave").value = "";
+    }
+  </script>
+
+</body>
+</html>

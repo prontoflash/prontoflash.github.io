@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <title>Agendar Servicio - PRONTOFLASH</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+  <h2>🗓️ Agendar un Servicio</h2>
+  <form id="formAgendar">
+    <input type="text" id="cliente" placeholder="Tu nombre completo" required /><br/>
+    <input type="text" id="telefono" placeholder="Número WhatsApp (sin + ni espacios)" required /><br/>
+    <select id="servicio" required>
+      <option value="">Selecciona un servicio</option>
+      <option value="Lavado Básico">Lavado Básico</option>
+      <option value="Lavado Completo">Lavado Completo</option>
+      <option value="Lavado Premium">Lavado Premium</option>
+    </select><br/>
+    <input type="date" id="fecha" required /><br/>
+    <input type="time" id="hora" required /><br/>
+    <button type="submit">📨 Agendar</button>
+  </form>
+
+  <div class="navegacion">
+    <a href="demo.html">🔙 Volver a Demo</a>
+    <a href="firma-digital.html">✍️ Ir a Firma Digital</a>
+  </div>
+
+  <script>
+    document.getElementById("formAgendar").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const cliente = document.getElementById("cliente").value;
+      const telefono = document.getElementById("telefono").value;
+      const servicio = document.getElementById("servicio").value;
+      const fecha = document.getElementById("fecha").value;
+      const hora = document.getElementById("hora").value;
+
+      const nuevo = {
+        cliente, servicio, fecha, hora, telefono,
+        estadoTecnico: "Pendiente"
+      };
+
+      const agenda = JSON.parse(localStorage.getItem("agendamientos")) || [];
+      agenda.push(nuevo);
+      localStorage.setItem("agendamientos", JSON.stringify(agenda));
+
+      alert("✅ Servicio agendado correctamente.");
+
+      const mensaje = \`Hola \${cliente}, tu servicio \${servicio} ha sido agendado para el \${fecha} a las \${hora}. ¡Gracias por usar PRONTOFLASH!\`;
+      const urlWhatsApp = \`https://wa.me/\${telefono}?text=\${encodeURIComponent(mensaje)}\`;
+      window.open(urlWhatsApp, "_blank");
+
+      const inicio = new Date(fecha + 'T' + hora);
+      const fin = new Date(inicio.getTime() + 60 * 60 * 1000);
+      const format = d => d.toISOString().replace(/[-:]|\.\d{3}/g, '');
+      const link = 'https://www.google.com/calendar/render?action=TEMPLATE' +
+        '&text=' + encodeURIComponent(servicio + ' - ' + cliente) +
+        '&dates=' + format(inicio) + '/' + format(fin) +
+        '&details=' + encodeURIComponent('Servicio PRONTOFLASH para placa ' + placa);
+      window.open(link, "_blank");
+
+
+      this.reset();
+    });
+  </script>
+
+
+<!-- 🌓 Módulo de cambio de tema claro/oscuro -->
+<style>
+  .boton-tema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: transparent;
+    border: 2px solid #ff3300;
+    color: #ff3300;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .boton-tema:hover {
+    background-color: #ff3300;
+    color: white;
+  }
+</style>
+
+<button class="boton-tema" onclick="cambiarTema()">🌓 Cambiar Tema</button>
+
+<script>
+  function aplicarTema(tema) {
+    const esClaro = tema === "claro";
+    document.body.style.backgroundColor = esClaro ? "#f5f5f5" : "#111";
+    document.body.style.color = esClaro ? "#000" : "#fff";
+    const enlaces = document.querySelectorAll("a, button");
+    enlaces.forEach(el => {
+      el.style.backgroundColor = esClaro ? "#eee" : "#222";
+      el.style.color = esClaro ? "#000" : "#fff";
+    });
+    localStorage.setItem("tema", tema);
+  }
+
+  function cambiarTema() {
+    const actual = localStorage.getItem("tema") || "oscuro";
+    const nuevo = actual === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+  }
+
+  // Al cargar
+  aplicarTema(localStorage.getItem("tema") || "oscuro");
+</script>
+
+</body>
+</html>
